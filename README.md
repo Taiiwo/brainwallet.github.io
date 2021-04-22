@@ -1,16 +1,12 @@
-Brainwallet
-===========
+Bitcoin Signature Tool
+======================
 
-JavaScript Client-Side Bitcoin Address Generator
+JavaScript Client-Side Bitcoin Signing and Verification Tool
 
-Notable features
-----------------
-
-* Online converter, including Base58 decoder and encoder
-* OpenSSL point conversion and compressed keys support
-* Armory and Electrum deterministic wallets implementation
-* RFC 1751 JavaScript implementation
-* Bitcoin transactions editor
-* Signing and verifying messages with bitcoin address
-* Litecoin support
-
+This tool is designed to help you create compact Bitcoin signatures
+for use in your contracts. A key feature that this tool has is the 
+ability to sign and verify documents with Bitcoin signatures already
+embedded.
+ 
+This allows multi-step and multi-party signing and verification to
+be applied to a document. 

@@ -1379,10 +1379,14 @@
       } else {
         var sgSig = sign_message(p.key, sgMsg, p.compressed, p.addrtype);
         $('#sgSig').val(joinMessage(sgType, p.address, sgMsg, sgSig));
-        label = '(<a href="#verify'+vrPermalink(p.address, sgMsg, sgSig)+'" target=_blank>permalink</a>)';
+        //label = '(<a href="#verify'+vrPermalink(p.address, sgMsg, sgSig)+'" target=_blank>permalink</a>)';
       }
 
       $('#sgLabel').html(label);
+    }
+    
+    function sgSig() {
+      this.setSelectionRange(0, this.value.length);
     }
 
     // -- verify --
@@ -1513,10 +1517,12 @@
 
           // insert link here
           if (vrAddr==addr && p.type!="armory_hex")
-            label = vrAddr +
-              ' (<a href="#verify'+vrPermalink(vrAddr,vrMsg,vrSig)+'" target=_blank>permalink</a>)';
+            //label = vrAddr +
+            //  ' (<a href="#verify'+vrPermalink(vrAddr,vrMsg,vrSig)+'" target=_blank>permalink</a>)';
 
           clone.find('#vrAddrLabel').html(label);
+          
+          $("#vrSign").removeClass("hidden");
         }
 
         clone.appendTo($('#vrAlert'));
@@ -1528,6 +1534,7 @@
 
     function vrOnInput() {
         $('#vrAlert').empty();
+        $("#vrSign").addClass("hidden");
         vrVerify();
     }
 
@@ -1653,14 +1660,34 @@
         onInput('#sgSec', sgOnChangeSec);
         onInput('#sgMsg', sgOnChangeMsg);
 
+        $('#sgSig').click(sgSig);
+
         $('#sgType label input').on('change', function() { if ($('#sgSig').val()!='') sgSign(); } );
 
         $('#sgSign').click(sgSign);
         $('#sgForm').submit(sgSign);
 
+        $('#sgShowPrivKey').click(function() {
+            $(this).addClass('hidden');
+            $('#sgHidePrivKey').removeClass('hidden');
+            $('#sgSec').get(0).setAttribute('type', 'text');
+        });
+        
+        $('#sgHidePrivKey').click(function() {
+            $(this).addClass('hidden');
+            $('#sgShowPrivKey').removeClass('hidden');
+            $('#sgSec').get(0).setAttribute('type', 'password');
+        });
+
         // verify
 
         $('#vrVerify').click(vrVerify);
+
+        $('#vrSign').click(function() {
+            var vrMsg = $('#vrMsg').val();
+            $('#sgMsg').val(vrMsg);
+            $('#tab-sign').tab('show');
+        });
 
         $('#vrFrom label input').on('change', function() {
           var bJoin = $(this).attr('id')=="vrFromMessage";
